@@ -10,9 +10,7 @@ export class FetchLib {
       const response = await networkCall();
       const { success, data, error } = Codec.safeParse(response.data);
 
-      if (!success) {
-        throw new Error(error.message);
-      }
+      if (!success) throw error;
 
       return data;
     } catch (error) {

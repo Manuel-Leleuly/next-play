@@ -1,3 +1,4 @@
+import { Footer } from "@/components/Footer/Footer";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { ConfigContextProvider } from "@/providers/ConfigProvider";
@@ -45,6 +46,7 @@ export default function RootLayout({
               <ConfigContextProvider>
                 <Navbar />
                 {children}
+                <Footer />
                 <Toaster />
               </ConfigContextProvider>
             </QueryProvider>

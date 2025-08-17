@@ -4,9 +4,16 @@ import { z } from "zod";
 export const MovieSchema = z.object({
   adult: z.boolean(),
   backdrop_path: z.string().nullish(),
-  belongs_to_collection: z.string().nullish(),
+  belongs_to_collection: z
+    .object({
+      id: z.number(),
+      name: z.string(),
+      poster_path: z.string().nullish(),
+      backdrop_path: z.string().nullish(),
+    })
+    .nullish(),
   budget: z.number().nullish(),
-  genre_ids: z.array(z.number()),
+  genre_ids: z.array(z.number()).nullish(),
   genres: z
     .array(
       z.object({
@@ -27,7 +34,7 @@ export const MovieSchema = z.object({
     .array(
       z.object({
         id: z.number(),
-        logo_path: z.string(),
+        logo_path: z.string().nullish(),
         name: z.string(),
         origin_country: z.string(),
       })
@@ -190,3 +197,66 @@ export const SearchMovieRequestSchema = z.object({
 });
 
 export type SearchMovieRequestType = z.infer<typeof SearchMovieRequestSchema>;
+
+export const CastSchema = z.object({
+  adult: z.boolean(),
+  gender: z.number(),
+  id: z.number(),
+  known_for_department: z.string(),
+  name: z.string(),
+  original_name: z.string(),
+  popularity: z.number(),
+  profile_path: z.string().nullish(),
+  cast_id: z.number(),
+  character: z.string(),
+  credit_id: z.string(),
+  order: z.number(),
+});
+
+export type CastType = z.infer<typeof CastSchema>;
+
+export const CrewSchema = z.object({
+  adult: z.boolean(),
+  gender: z.number(),
+  id: z.number(),
+  known_for_department: z.string(),
+  name: z.string(),
+  original_name: z.string(),
+  popularity: z.number(),
+  profile_path: z.string().nullish(),
+  credit_id: z.string(),
+  department: z.string(),
+  job: z.string(),
+});
+
+export type CrewType = z.infer<typeof CrewSchema>;
+
+export const MovieCastsAndCrewsSchema = z.object({
+  id: z.number(),
+  cast: z.array(CastSchema),
+  crew: z.array(CrewSchema),
+});
+
+export type MovieCastsAndCrewsType = z.infer<typeof MovieCastsAndCrewsSchema>;
+
+export const MovieVideoSchema = z.object({
+  iso_639_1: z.string(),
+  iso_3166_1: z.string(),
+  name: z.string(),
+  key: z.string(),
+  site: z.string(),
+  size: z.number(),
+  type: z.string(),
+  official: z.boolean(),
+  published_at: z.string(),
+  id: z.string(),
+});
+
+export type MovieVideoType = z.infer<typeof MovieVideoSchema>;
+
+export const MovieVideosResponseSchema = z.object({
+  id: z.number(),
+  results: z.array(MovieVideoSchema),
+});
+
+export type MovieVideosResponseType = z.infer<typeof MovieVideosResponseSchema>;

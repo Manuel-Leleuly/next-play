@@ -10,8 +10,6 @@ import { MenuMobile } from "./MenuMobile";
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  console.log({ isMobileMenuOpen });
-
   return (
     <>
       <motion.nav className="bg-background/95 backdrop-blur-sm border-b border-border sticky z-50 top-0">

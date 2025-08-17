@@ -3,11 +3,15 @@ import { AxiosInstance } from "axios";
 import {
   GenresResponseSchema,
   GenresResponseType,
+  MovieCastsAndCrewsSchema,
+  MovieCastsAndCrewsType,
   MovieSchema,
   MoviesRequestType,
   MoviesResponseSchema,
   MoviesResponseType,
   MovieType,
+  MovieVideosResponseSchema,
+  MovieVideosResponseType,
   NowPlayingMoviesSchema,
   NowPlayingMoviesType,
   SearchMovieRequestType,
@@ -52,6 +56,33 @@ export class MovieApi {
     return await FetchLib.validateResponse<NowPlayingMoviesType>(
       () => network.get("/movie/now_playing"),
       NowPlayingMoviesSchema
+    );
+  };
+
+  static getMovieCastsAndCrews = async (
+    network: AxiosInstance,
+    movieId: number
+  ) => {
+    return await FetchLib.validateResponse<MovieCastsAndCrewsType>(
+      () => network.get(`/movie/${movieId}/credits`),
+      MovieCastsAndCrewsSchema
+    );
+  };
+
+  static getMovieRecommendations = async (
+    network: AxiosInstance,
+    movieId: number
+  ) => {
+    return await FetchLib.validateResponse<MoviesResponseType>(
+      () => network.get(`/movie/${movieId}/recommendations`),
+      MoviesResponseSchema
+    );
+  };
+
+  static getMovieVideos = async (network: AxiosInstance, movieId: number) => {
+    return await FetchLib.validateResponse<MovieVideosResponseType>(
+      () => network.get(`/movie/${movieId}/videos`),
+      MovieVideosResponseSchema
     );
   };
 }

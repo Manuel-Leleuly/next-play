@@ -1,11 +1,10 @@
-import { Footer } from "@/components/Footer/Footer";
 import { PageRouteProps } from "@/models/models";
 import { Suspense } from "react";
 import { ClipLoader } from "react-spinners";
+import { PageContainer } from "../../components/PageContainer/PageContainer";
 import { Filters } from "./_components/Filters/Filters";
 import { MovieList } from "./_components/MovieList/MovieList";
 import { NowPlayingCarousel } from "./_components/NowPlayingCarousel/NowPlayingCarousel";
-import { PageContainer } from "./_components/PageContainer/PageContainer";
 
 type Props = PageRouteProps<
   undefined,
@@ -30,7 +29,6 @@ export default async function Home({ searchParams }: Props) {
       >
         <MovieList searchParams={queryParams} />
       </Suspense>
-      <Footer />
     </PageContainer>
   );
 }

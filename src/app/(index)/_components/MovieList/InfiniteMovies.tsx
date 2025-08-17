@@ -66,7 +66,7 @@ export const InfiniteMovies = ({
             <MovieCard
               key={movie.id + movie.original_title + index}
               id={movie.id}
-              genreIds={movie.genre_ids}
+              genreIds={movie.genre_ids ?? []}
               title={movie.title}
               posterPath={movie.poster_path}
             />
