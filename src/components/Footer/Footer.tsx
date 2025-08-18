@@ -27,10 +27,14 @@ export const Footer = () => {
                 MovieApp
               </span>
             </div>
-            <p className="text-muted-foreground mb-4 max-w-md">
+            <p className="text-muted-foreground mb-2 max-w-md">
               Discover amazing movies, create your personal watchlist, and dive
               into the world of cinema. Your next favorite film is just a click
               away.
+            </p>
+            <p className="text-muted-foreground text-sm mb-4 italic">
+              DISCLAIMER: This product uses the TMDB API but is not endorsed or
+              certified by TMDB.
             </p>
             <div className="flex space-x-4">
               {[FiGithub, FaXTwitter, FaInstagram].map((Icon, index) => (
@@ -58,6 +62,7 @@ export const Footer = () => {
           <p className="text-muted-foreground text-sm">
             © {currentYear} MovieApp. All rights reserved.
           </p>
+
           <div className="flex items-center justify-between space-x-3">
             <p className="text-muted-foreground text-sm text-nowrap">
               Powered by

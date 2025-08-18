@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { z } from "zod";
 
 export class FetchLib {
@@ -14,7 +14,7 @@ export class FetchLib {
 
       return data;
     } catch (error) {
-      throw new Error((error as AxiosError).message);
+      throw error;
     }
   };
 }

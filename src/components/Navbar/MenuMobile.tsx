@@ -1,6 +1,6 @@
 "use client";
 
-import { Filters } from "@/app/(index)/_components/Filters/Filters";
+import { Filters } from "@/app/(with_header_footer)/(index)/_components/Filters/Filters";
 import {
   Funnel,
   Heart,

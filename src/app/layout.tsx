@@ -1,5 +1,3 @@
-import { Footer } from "@/components/Footer/Footer";
-import { Navbar } from "@/components/Navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { ConfigContextProvider } from "@/providers/ConfigProvider";
 import { ProgressAppProvider } from "@/providers/ProgressProvider";
@@ -44,9 +42,7 @@ export default function RootLayout({
           >
             <QueryProvider>
               <ConfigContextProvider>
-                <Navbar />
                 {children}
-                <Footer />
                 <Toaster />
               </ConfigContextProvider>
             </QueryProvider>
