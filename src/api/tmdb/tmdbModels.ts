@@ -65,3 +65,22 @@ export const CreateSessionResponseSchema = z.union([
 export type CreateSessionResponseType = z.infer<
   typeof CreateSessionResponseSchema
 >;
+
+export const UserDetailSchema = z.object({
+  avatar: z.object({
+    gravatar: z.object({
+      hash: z.string().nullish(),
+    }),
+    tmdb: z.object({
+      avatar_path: z.string().nullish(),
+    }),
+  }),
+  id: z.number(),
+  iso_639_1: z.string(),
+  iso_3166_1: z.string(),
+  name: z.string(),
+  include_adult: z.boolean(),
+  username: z.string(),
+});
+
+export type UserDetailType = z.infer<typeof UserDetailSchema>;

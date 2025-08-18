@@ -1,11 +1,12 @@
-import { TmdbApi } from "@/api/tmdb/tmdb";
 import { LoginRequestBodySchema } from "@/api/tmdb/tmdbModels";
 import { useLocalStorage } from "@/hooks/useLocaleStorage";
-import { NetworkLib } from "@/lib/NetworkLib";
 import { useForm } from "@tanstack/react-form";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { submitLogin } from "../actions";
 
 export const useLoginFormLogic = (requestToken: string) => {
+  const router = useRouter();
   const { setValue } = useLocalStorage();
 
   const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -31,13 +32,19 @@ export const useLoginFormLogic = (requestToken: string) => {
       try {
         setIsLoading(true);
         setError(null);
-        const network = NetworkLib.withTMDBToken();
-        const loginResult = await TmdbApi.login(network, value);
-        const createSessionResult = await TmdbApi.getSessionId(network, {
-          request_token: loginResult.request_token,
-        });
+
+        const createSessionResult = await submitLogin(value);
+
+        // TODO: find a way to move this to server actions
         if (createSessionResult.success) {
-          setValue("session_id", createSessionResult.session_id);
+          setValue(
+            "user",
+            JSON.stringify({
+              username: value.username,
+              session_id: createSessionResult.session_id,
+            })
+          );
+          router.push("/");
         }
       } catch (error) {
         setError(error as Error);

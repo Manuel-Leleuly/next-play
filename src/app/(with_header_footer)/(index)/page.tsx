@@ -1,6 +1,5 @@
 import { PageRouteProps } from "@/models/models";
 import { Suspense } from "react";
-import { ClipLoader } from "react-spinners";
 import { PageContainer } from "../../../components/PageContainer/PageContainer";
 import { Filters } from "./_components/Filters/Filters";
 import { MovieList } from "./_components/MovieList/MovieList";
@@ -16,17 +15,13 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <PageContainer>
-      <NowPlayingCarousel />
+      <Suspense>
+        <NowPlayingCarousel />
+      </Suspense>
       <div className="hidden sm:block">
         <Filters />
       </div>
-      <Suspense
-        fallback={
-          <div className="w-full flex justify-center">
-            <ClipLoader />
-          </div>
-        }
-      >
+      <Suspense>
         <MovieList searchParams={queryParams} />
       </Suspense>
     </PageContainer>

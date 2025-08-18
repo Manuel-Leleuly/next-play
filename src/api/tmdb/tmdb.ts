@@ -11,6 +11,8 @@ import {
   RequestTokenType,
   TmdbConfigSchema,
   TmdbConfigType,
+  UserDetailSchema,
+  UserDetailType,
 } from "./tmdbModels";
 
 export class TmdbApi {
@@ -60,6 +62,13 @@ export class TmdbApi {
     return await FetchLib.validateResponse<CreateSessionResponseType>(
       () => network.post("/authentication/session/new", createSessionReqBody),
       CreateSessionResponseSchema
+    );
+  };
+
+  static getUserDetail = async (network: AxiosInstance, sessionId: string) => {
+    return await FetchLib.validateResponse<UserDetailType>(
+      () => network.get("/account", { params: { sessionId } }),
+      UserDetailSchema
     );
   };
 }
