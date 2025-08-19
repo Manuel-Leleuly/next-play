@@ -8,3 +8,10 @@ export const withPagination = <D>(Codec: z.ZodType<D>) => {
     total_results: z.number(),
   });
 };
+
+export const UserCookiesSchema = z.object({
+  username: z.string(),
+  session_id: z.string(),
+});
+
+export type UserCookiesType = z.infer<typeof UserCookiesSchema>;

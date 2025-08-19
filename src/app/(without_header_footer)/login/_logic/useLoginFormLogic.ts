@@ -32,20 +32,7 @@ export const useLoginFormLogic = (requestToken: string) => {
       try {
         setIsLoading(true);
         setError(null);
-
-        const createSessionResult = await submitLogin(value);
-
-        // TODO: find a way to move this to server actions
-        if (createSessionResult.success) {
-          setValue(
-            "user",
-            JSON.stringify({
-              username: value.username,
-              session_id: createSessionResult.session_id,
-            })
-          );
-          router.push("/");
-        }
+        await submitLogin(value);
       } catch (error) {
         setError(error as Error);
       } finally {

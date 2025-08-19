@@ -1,5 +1,4 @@
 import { Toaster } from "@/components/ui/sonner";
-import { ConfigContextProvider } from "@/providers/ConfigProvider";
 import { ProgressAppProvider } from "@/providers/ProgressProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
@@ -41,10 +40,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <QueryProvider>
-              <ConfigContextProvider>
-                {children}
-                <Toaster />
-              </ConfigContextProvider>
+              {children}
+              <Toaster />
             </QueryProvider>
           </ThemeProvider>
         </ProgressAppProvider>

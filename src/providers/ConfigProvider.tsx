@@ -4,8 +4,8 @@ import { GenresResponseType } from "@/api/movies/movieModels";
 import { MovieApi } from "@/api/movies/movies";
 import { TmdbApi } from "@/api/tmdb/tmdb";
 import { TmdbConfigType, UserDetailType } from "@/api/tmdb/tmdbModels";
-import { useLocalStorage } from "@/hooks/useLocaleStorage";
 import { NetworkLib } from "@/lib/NetworkLib";
+import { UserCookiesType } from "@/models/fetchModels";
 import { useQueries } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext, useMemo } from "react";
 
@@ -16,6 +16,7 @@ interface ConfigContextType {
     | (UserDetailType & { username: string; session_id: string })
     | null;
   hasUserDetail: boolean;
+  isAllLoading: boolean;
 }
 
 const ConfigContext = createContext<ConfigContextType>({} as ConfigContextType);
@@ -24,11 +25,11 @@ export const useConfigContext = () => useContext(ConfigContext);
 
 export const ConfigContextProvider = ({
   children,
+  userCookies,
 }: {
   children: ReactNode;
+  userCookies?: UserCookiesType;
 }) => {
-  const { getValue } = useLocalStorage();
-
   const fetchGenres = async () => {
     try {
       const network = NetworkLib.withTMDBToken();
@@ -49,32 +50,38 @@ export const ConfigContextProvider = ({
 
   const fetchUserDetail = async () => {
     try {
-      const user = getValue("user");
-      if (!user) return null;
-      const userObj = JSON.parse(user);
+      if (!userCookies) return null;
 
       const network = NetworkLib.withTMDBToken();
-      const result = await TmdbApi.getUserDetail(network, userObj.session_id);
+      const result = await TmdbApi.getUserDetail(
+        network,
+        userCookies.session_id
+      );
       return {
         ...result,
-        ...userObj,
+        ...userCookies,
       };
     } catch (error) {
       console.error(error);
     }
   };
 
-  const [{ data: genres }, { data: config }, { data: userDetail }] = useQueries(
-    {
-      queries: [
-        { queryKey: ["genre"], queryFn: fetchGenres },
-        { queryKey: ["config"], queryFn: fetchConfig },
-        { queryKey: ["userDetail"], queryFn: fetchUserDetail },
-      ],
-    }
-  );
+  const [
+    { data: genres, isLoading: isFetchingGenre },
+    { data: config, isLoading: isFetchingConfig },
+    { data: userDetail, isLoading: isFetchingUserDetail },
+  ] = useQueries({
+    queries: [
+      { queryKey: ["genre"], queryFn: fetchGenres },
+      { queryKey: ["config"], queryFn: fetchConfig },
+      { queryKey: ["userDetail"], queryFn: fetchUserDetail },
+    ],
+  });
 
   const hasUserDetail = useMemo(() => !!userDetail, [userDetail]);
+  const isAllLoading = useMemo(() => {
+    return isFetchingConfig || isFetchingGenre || isFetchingUserDetail;
+  }, [isFetchingConfig, isFetchingGenre, isFetchingUserDetail]);
 
   return (
     <ConfigContext.Provider
@@ -83,6 +90,7 @@ export const ConfigContextProvider = ({
         config: config ?? null,
         userDetail: userDetail ?? null,
         hasUserDetail,
+        isAllLoading,
       }}
     >
       {children}

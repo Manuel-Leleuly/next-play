@@ -3,9 +3,16 @@ import { MovieApi } from "@/api/movies/movies";
 import { NetworkLib } from "@/lib/NetworkLib";
 import { useConfigContext } from "@/providers/ConfigProvider";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 export const useFavoriteMoviesLogic = () => {
-  const { userDetail } = useConfigContext();
+  const { userDetail, isAllLoading } = useConfigContext();
+
+  const [isAllowedRun, setIsAllowedRun] = useState(false);
+
+  useEffect(() => {
+    if (!isAllLoading) setIsAllowedRun(true);
+  }, [isAllLoading]);
 
   const { data, error, isLoading, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
@@ -29,6 +36,7 @@ export const useFavoriteMoviesLogic = () => {
         }
         return lastPageParam + 1;
       },
+      enabled: isAllowedRun,
     });
 
   const allMovies: MovieType[] = [];
@@ -37,6 +45,7 @@ export const useFavoriteMoviesLogic = () => {
       allMovies.push(...page.results);
     }
   });
+
   return {
     allMovies,
     error,
