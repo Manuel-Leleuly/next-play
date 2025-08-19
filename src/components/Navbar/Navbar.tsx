@@ -1,5 +1,6 @@
 "use client";
 
+import { useConfigContext } from "@/providers/ConfigProvider";
 import { Film } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
@@ -8,7 +9,10 @@ import { MenuDesktop } from "./MenuDesktop";
 import { MenuMobile } from "./MenuMobile";
 
 export const Navbar = () => {
+  const { hasUserDetail, userDetail } = useConfigContext();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  console.log({ hasUserDetail, userDetail });
 
   return (
     <>

@@ -13,9 +13,10 @@ import { ImageLib } from "@/lib/imageLib";
 import { cn } from "@/lib/utils";
 import { useConfigContext } from "@/providers/ConfigProvider";
 import Autoplay from "embla-carousel-autoplay";
-import { Link, Play } from "lucide-react";
+import { Play } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 const getBackdropUrl = (backdropPath?: string | null) => {
@@ -31,6 +32,7 @@ export const NowPlayingCarouselContent = ({
 }) => {
   const pluginRef = useRef(Autoplay({ delay: 5000 }));
   const { genres } = useConfigContext();
+  const router = useRouter();
 
   return (
     <Carousel plugins={[pluginRef.current]}>
@@ -126,15 +128,16 @@ export const NowPlayingCarouselContent = ({
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.7 }}
                         >
-                          <Link href={`/${nowPlayingMovie.id}`}>
-                            <Button
-                              size="lg"
-                              className="bg-white hover:bg-white/90 text-black"
-                            >
-                              <Play className="mr-2 h-5 w-5 fill-black" />
-                              Watch Details
-                            </Button>
-                          </Link>
+                          <Button
+                            size="lg"
+                            className="bg-white hover:bg-white/90 text-black"
+                            onClick={() =>
+                              router.push(`/${nowPlayingMovie.id}`)
+                            }
+                          >
+                            <Play className="mr-2 h-5 w-5 fill-black" />
+                            Watch Details
+                          </Button>
                         </motion.div>
                       </motion.div>
                     </AnimatePresence>

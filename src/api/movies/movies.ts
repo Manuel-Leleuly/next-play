@@ -1,6 +1,10 @@
 import { FetchLib } from "@/lib/fetchLib";
 import { AxiosInstance } from "axios";
 import {
+  AddOrRemoveFavoritesReqType,
+  AddOrRemoveFavoritesSuccessSchema,
+  AddOrRemoveFavoritesSuccessType,
+  FavoriteMoviesRequestType,
   GenresResponseSchema,
   GenresResponseType,
   MovieCastsAndCrewsSchema,
@@ -83,6 +87,28 @@ export class MovieApi {
     return await FetchLib.validateResponse<MovieVideosResponseType>(
       () => network.get(`/movie/${movieId}/videos`),
       MovieVideosResponseSchema
+    );
+  };
+
+  static getFavoriteMovies = async (
+    network: AxiosInstance,
+    account_id: number,
+    params: FavoriteMoviesRequestType
+  ) => {
+    return await FetchLib.validateResponse<MoviesResponseType>(
+      () => network.get(`/account/${account_id}/favorite/movies`, { params }),
+      MoviesResponseSchema
+    );
+  };
+
+  static addOrRemoveMovieFromFavorites = async (
+    network: AxiosInstance,
+    { account_id, req_body, ...params }: AddOrRemoveFavoritesReqType
+  ) => {
+    return await FetchLib.validateResponse<AddOrRemoveFavoritesSuccessType>(
+      () =>
+        network.post(`/account/${account_id}/favorite`, req_body, { params }),
+      AddOrRemoveFavoritesSuccessSchema
     );
   };
 }

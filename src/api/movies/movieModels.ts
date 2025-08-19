@@ -260,3 +260,37 @@ export const MovieVideosResponseSchema = z.object({
 });
 
 export type MovieVideosResponseType = z.infer<typeof MovieVideosResponseSchema>;
+
+export const FavoriteMoviesRequestSchema = z.object({
+  language: z.string().nullish(),
+  page: z.number().nullish(),
+  session_id: z.string().nullish(),
+  sort_by: z.enum(["created_at.asc", "created_at.desc"]).nullish(),
+});
+
+export type FavoriteMoviesRequestType = z.infer<
+  typeof FavoriteMoviesRequestSchema
+>;
+
+export const AddOrRemoveFavoritesReqSchema = z.object({
+  account_id: z.number(),
+  session_id: z.string(),
+  req_body: z.object({
+    media_type: z.enum(["movie", "tv"]),
+    media_id: z.number(),
+    favorite: z.boolean(),
+  }),
+});
+
+export type AddOrRemoveFavoritesReqType = z.infer<
+  typeof AddOrRemoveFavoritesReqSchema
+>;
+
+export const AddOrRemoveFavoritesSuccessSchema = z.object({
+  status_code: z.number(),
+  status_message: z.string(),
+});
+
+export type AddOrRemoveFavoritesSuccessType = z.infer<
+  typeof AddOrRemoveFavoritesSuccessSchema
+>;

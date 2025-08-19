@@ -7,12 +7,14 @@ import { TmdbConfigType, UserDetailType } from "@/api/tmdb/tmdbModels";
 import { useLocalStorage } from "@/hooks/useLocaleStorage";
 import { NetworkLib } from "@/lib/NetworkLib";
 import { useQueries } from "@tanstack/react-query";
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useMemo } from "react";
 
 interface ConfigContextType {
   genres: GenresResponseType["genres"];
   config: TmdbConfigType | null;
-  userDetail: UserDetailType | null;
+  userDetail:
+    | (UserDetailType & { username: string; session_id: string })
+    | null;
   hasUserDetail: boolean;
 }
 
@@ -52,7 +54,11 @@ export const ConfigContextProvider = ({
       const userObj = JSON.parse(user);
 
       const network = NetworkLib.withTMDBToken();
-      return await TmdbApi.getUserDetail(network, userObj.session_id);
+      const result = await TmdbApi.getUserDetail(network, userObj.session_id);
+      return {
+        ...result,
+        ...userObj,
+      };
     } catch (error) {
       console.error(error);
     }
@@ -68,13 +74,15 @@ export const ConfigContextProvider = ({
     }
   );
 
+  const hasUserDetail = useMemo(() => !!userDetail, [userDetail]);
+
   return (
     <ConfigContext.Provider
       value={{
         genres: genres?.genres ?? [],
         config: config ?? null,
         userDetail: userDetail ?? null,
-        hasUserDetail: !!userDetail,
+        hasUserDetail,
       }}
     >
       {children}

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { useConfigContext } from "@/providers/ConfigProvider";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
 import { AddToFavorites } from "./AddToFavorites";
 
@@ -21,13 +21,14 @@ export const MovieCard = ({
   genreIds: number[];
   posterPath?: string | null;
 }) => {
+  const router = useRouter();
   const { genres } = useConfigContext();
   const posterUrl = posterPath
     ? ImageLib.getImageUrl(POSTER_SIZE.W342, posterPath)
     : ImageLib.getDefaultImageUrl(342, 500);
 
   return (
-    <Link href={`/${id}`}>
+    <div>
       <motion.div
         key={id}
         className={cn(
@@ -39,6 +40,7 @@ export const MovieCard = ({
         viewport={{ once: true }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.98 }}
+        onClick={() => router.push(`/${id}`)}
       >
         {/* POSTER */}
         <AnimatePresence mode="wait">
@@ -72,7 +74,7 @@ export const MovieCard = ({
           whileHover={{ opacity: 1 }}
         >
           <div className="flex justify-end">
-            <AddToFavorites />
+            <AddToFavorites movieId={id} />
           </div>
           <div className="flex flex-col space-y-2">
             <p className="overflow-hidden line-clamp-1 text-sm text-white">
@@ -94,6 +96,6 @@ export const MovieCard = ({
           </div>
         </motion.div>
       </motion.div>
-    </Link>
+    </div>
   );
 };

@@ -1,3 +1,4 @@
+import { FallbackLoader } from "@/components/FallbackLoader/FallbackLoader";
 import { PageRouteProps } from "@/models/models";
 import { Suspense } from "react";
 import { PageContainer } from "../../../components/PageContainer/PageContainer";
@@ -15,13 +16,13 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <PageContainer>
-      <Suspense>
+      <Suspense fallback={<FallbackLoader />}>
         <NowPlayingCarousel />
       </Suspense>
       <div className="hidden sm:block">
         <Filters />
       </div>
-      <Suspense>
+      <Suspense fallback={<FallbackLoader />}>
         <MovieList searchParams={queryParams} />
       </Suspense>
     </PageContainer>

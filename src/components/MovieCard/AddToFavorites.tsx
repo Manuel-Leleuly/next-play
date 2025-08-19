@@ -1,33 +1,26 @@
-"use client";
-
+import { useAddToFavoritesLogic } from "@/hooks/useAddToFavoritesLogic";
 import { cn } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
 import { Heart } from "lucide-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { ClipLoader } from "react-spinners";
 
-export const AddToFavorites = () => {
-  const [isFavorite, setIsFavorite] = useState(false);
+export const AddToFavorites = ({ movieId }: { movieId: number }) => {
+  const { addOrRemoveMutation, isFavorite } = useAddToFavoritesLogic();
 
-  const mutation = useMutation({
-    mutationKey: ["addMovieToFavorites"],
-    mutationFn: async () => {
-      setIsFavorite((prevState) => !prevState);
-      console.log("adding movie to favorites");
-    },
-    onSuccess: () => {
-      console.log("success");
-    },
-    onError: (error) => {
-      setIsFavorite(false);
-      console.error(error);
-    },
-  });
+  const { isPending } = addOrRemoveMutation;
+
+  if (isPending) {
+    return (
+      <div className="p-2 bg-transparent">
+        <ClipLoader size={16} color="white" />
+      </div>
+    );
+  }
 
   return (
     <motion.button
       className={cn(
-        "p-2 rounded-full transition-colors hover:cursor-pointer",
+        "p-2 rounded-full transition-colors hover:cursor-pointer relative",
         isFavorite
           ? "bg-red-500 text-white"
           : "bg-black/50 text-white hover:bg-red-500"
@@ -37,8 +30,9 @@ export const AddToFavorites = () => {
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        mutation.mutate();
+        addOrRemoveMutation.mutate({ movieId, isFavorite: !isFavorite });
       }}
+      disabled={isPending}
     >
       <Heart className={cn("h-4 w-4", isFavorite && "fill-current")} />
     </motion.button>
