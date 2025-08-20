@@ -2,6 +2,7 @@
 
 import { MovieType } from "@/api/movies/movieModels";
 import { POSTER_SIZE } from "@/constants/ImageSize";
+import { useAddRemoveFavoritesLogic } from "@/hooks/useAddToFavoritesLogic";
 import { ImageLib } from "@/lib/imageLib";
 import { cn } from "@/lib/utils";
 import { useConfigContext } from "@/providers/ConfigProvider";
@@ -18,6 +19,7 @@ const getPosterUrl = (posterPath: string | null | undefined) => {
 export const FavoriteMovieCard = ({ movie }: { movie: MovieType }) => {
   const { genres } = useConfigContext();
   const router = useRouter();
+  const { addOrRemoveMutation } = useAddRemoveFavoritesLogic(true);
 
   return (
     <motion.div
@@ -51,10 +53,15 @@ export const FavoriteMovieCard = ({ movie }: { movie: MovieType }) => {
 
         {/* Remove button */}
         <motion.button
-          className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+          className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg hover:cursor-pointer disabled:bg-muted-foreground disabled:cursor-not-allowed"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          //   onClick={(e) => handleRemoveFavorite(movie.id, e)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            addOrRemoveMutation.mutate(movie.id);
+          }}
+          disabled={addOrRemoveMutation.isPending}
         >
           <X className="h-3 w-3" />
         </motion.button>

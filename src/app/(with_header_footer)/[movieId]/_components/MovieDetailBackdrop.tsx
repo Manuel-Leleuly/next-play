@@ -4,6 +4,7 @@ import { MovieType } from "@/api/movies/movieModels";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BACKDROP_SIZE } from "@/constants/ImageSize";
+import { useAddRemoveFavoritesLogic } from "@/hooks/useAddToFavoritesLogic";
 import { ImageLib } from "@/lib/imageLib";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, Calendar, Clock, Heart, Play, Star } from "lucide-react";
@@ -23,9 +24,8 @@ const getBackdropUrl = (backdropPath: string | null | undefined) => {
 const Modals = z.enum(["TRAILER", "ADULT_CONTENT"]).enum;
 
 export const MovieDetailBackdrop = ({ movie }: { movie: MovieType }) => {
+  const { isFavorite, addOrRemoveMutation } = useAddRemoveFavoritesLogic();
   const router = useRouter();
-
-  const [isFavorite, setIsFavorite] = useState(false);
   const [selectedModal, setSelectedModal] = useState<
     keyof typeof Modals | null
   >(null);
@@ -147,19 +147,28 @@ export const MovieDetailBackdrop = ({ movie }: { movie: MovieType }) => {
                       whileTap={{ scale: 0.98 }}
                     >
                       <Button
-                        onClick={() => setIsFavorite((prevState) => !prevState)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          addOrRemoveMutation.mutate(movie.id);
+                        }}
                         variant="outline"
                         size="lg"
-                        className={`min-w-[160px] border-2 ${
-                          isFavorite
-                            ? "bg-red-50 border-red-200 text-red-700 hover:bg-red-100 dark:bg-red-900/20 dark:border-red-800 dark:text-red-300"
-                            : "border-foreground/20 hover:border-foreground/40"
-                        }`}
+                        className={cn(
+                          "min-w-[160px] border-2 cursor-pointer",
+                          isFavorite &&
+                            "bg-red-50 border-red-200 text-red-700 hover:bg-red-100 dark:bg-red-900/20 dark:border-red-800 dark:text-red-300",
+                          !isFavorite &&
+                            "border-foreground/20 hover:border-foreground/40",
+                          "disabled:bg-muted-foreground disabled:cursor-not-allowed"
+                        )}
+                        disabled={addOrRemoveMutation.isPending}
                       >
                         <Heart
-                          className={`h-4 w-4 mr-2 ${
-                            isFavorite ? "fill-current" : ""
-                          }`}
+                          className={cn(
+                            "h-4 w-4 mr-2",
+                            isFavorite && "fill-current"
+                          )}
                         />
                         {isFavorite
                           ? "Remove from Favorites"

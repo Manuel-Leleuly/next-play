@@ -2,16 +2,7 @@
 
 import { Filters } from "@/app/(with_header_footer)/(index)/_components/Filters/Filters";
 import { useConfigContext } from "@/providers/ConfigProvider";
-import {
-  Funnel,
-  Heart,
-  LogIn,
-  LogOut,
-  Moon,
-  Search,
-  Settings,
-  Sun,
-} from "lucide-react";
+import { Funnel, Heart, LogIn, LogOut, Moon, Search, Sun } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -26,7 +17,7 @@ import { Button } from "../ui/button";
 import { SearchBar } from "./SearchBar/SearchBar";
 
 export const MenuMobile = ({ closeMenu }: { closeMenu: () => void }) => {
-  const { hasUserDetail } = useConfigContext();
+  const { hasUserDetail, userDetail } = useConfigContext();
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
@@ -50,6 +41,21 @@ export const MenuMobile = ({ closeMenu }: { closeMenu: () => void }) => {
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         <div className="p-6 space-y-6">
+          {/* User Info */}
+          <motion.div
+            className="text-center pb-4 border-b border-border"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+          >
+            <p className="text-lg text-muted-foreground">
+              Signed in as{" "}
+              <span className="font-medium text-foreground">
+                {userDetail?.username}
+              </span>
+            </p>
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -100,10 +106,6 @@ export const MenuMobile = ({ closeMenu }: { closeMenu: () => void }) => {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <button className="w-full flex items-center space-x-3 p-3 hover:bg-accent rounded-md transition-colors">
-                          <Settings className="h-5 w-5 text-muted-foreground" />
-                          <span className="text-lg">Settings</span>
-                        </button>
                         <button
                           className="w-full flex items-center space-x-3 p-3 hover:bg-accent rounded-md transition-colors"
                           onClick={toggleTheme}

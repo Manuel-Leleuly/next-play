@@ -74,7 +74,11 @@ export const ConfigContextProvider = ({
     queries: [
       { queryKey: ["genre"], queryFn: fetchGenres },
       { queryKey: ["config"], queryFn: fetchConfig },
-      { queryKey: ["userDetail"], queryFn: fetchUserDetail },
+      {
+        queryKey: ["userDetail"],
+        queryFn: fetchUserDetail,
+        enabled: !!userCookies,
+      },
     ],
   });
 

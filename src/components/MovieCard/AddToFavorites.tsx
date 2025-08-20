@@ -1,11 +1,11 @@
-import { useAddToFavoritesLogic } from "@/hooks/useAddToFavoritesLogic";
+import { useAddRemoveFavoritesLogic } from "@/hooks/useAddToFavoritesLogic";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { motion } from "motion/react";
 import { ClipLoader } from "react-spinners";
 
 export const AddToFavorites = ({ movieId }: { movieId: number }) => {
-  const { addOrRemoveMutation, isFavorite } = useAddToFavoritesLogic();
+  const { addOrRemoveMutation, isFavorite } = useAddRemoveFavoritesLogic();
 
   const { isPending } = addOrRemoveMutation;
 
@@ -30,7 +30,7 @@ export const AddToFavorites = ({ movieId }: { movieId: number }) => {
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        addOrRemoveMutation.mutate({ movieId, isFavorite: !isFavorite });
+        addOrRemoveMutation.mutate(movieId);
       }}
       disabled={isPending}
     >

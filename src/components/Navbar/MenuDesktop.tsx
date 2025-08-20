@@ -1,7 +1,7 @@
 "use client";
 
 import { useConfigContext } from "@/providers/ConfigProvider";
-import { Heart, LogIn, LogOut, Moon, Settings, Sun } from "lucide-react";
+import { Heart, LogIn, LogOut, Moon, Sun } from "lucide-react";
 import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -11,12 +11,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { SearchBar } from "./SearchBar/SearchBar";
 
 export const MenuDesktop = () => {
-  const { hasUserDetail } = useConfigContext();
+  const { hasUserDetail, userDetail } = useConfigContext();
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
@@ -64,10 +65,13 @@ export const MenuDesktop = () => {
             </motion.button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem>
-              <Settings className="mr-2 h-2 w-4" />
-              <span>Settings</span>
-            </DropdownMenuItem>
+            <div className="px-2 py-1.5 text-sm text-muted-foreground">
+              Signed in as{" "}
+              <span className="font-medium text-foreground">
+                {userDetail?.username}
+              </span>
+            </div>
+            <DropdownMenuSeparator />
             <DropdownMenuItem onClick={toggleTheme}>
               {theme === "light" ? (
                 <Moon className="mr-2 h-2 w-4" />
