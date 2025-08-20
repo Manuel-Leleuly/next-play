@@ -72,7 +72,7 @@ const ModalContent = ({
   if (error) {
     return (
       <div className="p-6 text-muted-foreground">
-        There's an error getting the trailer. Please try again
+        There&lsquo;s an error getting the trailer. Please try again
       </div>
     );
   }

@@ -45,7 +45,7 @@ export const LeftSide = () => {
               target="_blank"
               className="w-24"
             >
-              <img src={"/tmdb.svg"} />
+              <img src={"/tmdb.svg"} alt="tmbd-logo" />
             </Link>
           </div>
         </motion.div>

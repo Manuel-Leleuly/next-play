@@ -1,4 +1,3 @@
-import { useIsMobile } from "@/hooks/use-mobile";
 import { sleepAsync } from "@/lib/utils";
 import { SelectOption } from "@/models/models";
 import { useConfigContext } from "@/providers/ConfigProvider";
@@ -23,7 +22,6 @@ export const useFilterLogic = () => {
   const searchParamsObj = Object.fromEntries(searchParams);
   const { genres } = useConfigContext();
   const router = useRouter();
-  const isMobile = useIsMobile();
 
   const genreOptions: SelectOption[] = [
     defaultGenre,
@@ -76,7 +74,7 @@ export const useFilterLogic = () => {
 
     const searchParams = new URLSearchParams(queryParams);
     router.push("?" + searchParams.toString());
-  }, [selectedGenre, selectedYear, isAdultContentEnabled]);
+  }, [selectedGenre, selectedYear, isAdultContentEnabled, router]);
 
   const onFilterChange = (
     type: "genre" | "year" | "isAdult",

@@ -72,7 +72,7 @@ export const Footer = () => {
               target="_blank"
               className="w-24"
             >
-              <img src={"/tmdb.svg"} />
+              <img src={"/tmdb.svg"} alt="tmdb-logo" />
             </Link>
           </div>
         </motion.div>

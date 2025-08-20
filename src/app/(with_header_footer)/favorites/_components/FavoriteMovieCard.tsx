@@ -2,7 +2,7 @@
 
 import { MovieType } from "@/api/movies/movieModels";
 import { POSTER_SIZE } from "@/constants/ImageSize";
-import { useAddRemoveFavoritesLogic } from "@/hooks/useAddToFavoritesLogic";
+import { useAddRemoveFavoritesLogic } from "@/hooks/useAddOrRemoveFavoritesLogic";
 import { ImageLib } from "@/lib/imageLib";
 import { cn } from "@/lib/utils";
 import { useConfigContext } from "@/providers/ConfigProvider";

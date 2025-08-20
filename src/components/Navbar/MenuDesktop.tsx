@@ -15,10 +15,12 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { SearchBar } from "./SearchBar/SearchBar";
+import { useLogoutLogic } from "./logic/useLogoutLogic";
 
 export const MenuDesktop = () => {
   const { hasUserDetail, userDetail } = useConfigContext();
   const { theme, setTheme } = useTheme();
+  const { logoutMutation } = useLogoutLogic();
 
   const toggleTheme = () => {
     if (theme === "light") setTheme("dark");
@@ -80,7 +82,11 @@ export const MenuDesktop = () => {
               )}
               <span>{theme === "light" ? "Dark mode" : "Light mode"}</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => logoutMutation.mutate()}
+              disabled={logoutMutation.isPending}
+              className="disabled:cursor-not-allowed disabled:bg-muted-foreground"
+            >
               <LogOut className="mr-2 w-2 h-2" />
               <span>Log out</span>
             </DropdownMenuItem>

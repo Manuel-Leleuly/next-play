@@ -17,7 +17,7 @@ export const Casts = ({ casts }: { casts: CastType[] }) => {
     <div className="space-y-6">
       <h2 className="text-2xl text-foreground">Cast</h2>
       <div className="space-y-4">
-        {casts.slice(0, 5).map((actor, index) => (
+        {casts.slice(0, 5).map((actor) => (
           <motion.div
             key={actor.id}
             className="flex items-center space-x-4 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"

@@ -5,6 +5,8 @@ import {
   CreateSessionReqBodyType,
   CreateSessionResponseSchema,
   CreateSessionResponseType,
+  DeleteSessionSchema,
+  DeleteSessionType,
   LoginRequestBodySchema,
   LoginRequestBodyType,
   RequestTokenSchema,
@@ -69,6 +71,13 @@ export class TmdbApi {
     return await FetchLib.validateResponse<UserDetailType>(
       () => network.get("/account", { params: { sessionId } }),
       UserDetailSchema
+    );
+  };
+
+  static logout = async (network: AxiosInstance, session_id: string) => {
+    return await FetchLib.validateResponse<DeleteSessionType>(
+      () => network.delete("/authentication/session", { data: { session_id } }),
+      DeleteSessionSchema
     );
   };
 }

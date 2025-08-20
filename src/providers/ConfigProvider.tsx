@@ -25,10 +25,13 @@ export const useConfigContext = () => useContext(ConfigContext);
 
 export const ConfigContextProvider = ({
   children,
-  userCookies,
+  userDetail,
 }: {
   children: ReactNode;
   userCookies?: UserCookiesType;
+  userDetail:
+    | (UserDetailType & { username: string; session_id: string })
+    | null;
 }) => {
   const fetchGenres = async () => {
     try {
@@ -48,44 +51,20 @@ export const ConfigContextProvider = ({
     }
   };
 
-  const fetchUserDetail = async () => {
-    try {
-      if (!userCookies) return null;
-
-      const network = NetworkLib.withTMDBToken();
-      const result = await TmdbApi.getUserDetail(
-        network,
-        userCookies.session_id
-      );
-      return {
-        ...result,
-        ...userCookies,
-      };
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const [
     { data: genres, isLoading: isFetchingGenre },
     { data: config, isLoading: isFetchingConfig },
-    { data: userDetail, isLoading: isFetchingUserDetail },
   ] = useQueries({
     queries: [
       { queryKey: ["genre"], queryFn: fetchGenres },
       { queryKey: ["config"], queryFn: fetchConfig },
-      {
-        queryKey: ["userDetail"],
-        queryFn: fetchUserDetail,
-        enabled: !!userCookies,
-      },
     ],
   });
 
   const hasUserDetail = useMemo(() => !!userDetail, [userDetail]);
   const isAllLoading = useMemo(() => {
-    return isFetchingConfig || isFetchingGenre || isFetchingUserDetail;
-  }, [isFetchingConfig, isFetchingGenre, isFetchingUserDetail]);
+    return isFetchingConfig || isFetchingGenre;
+  }, [isFetchingConfig, isFetchingGenre]);
 
   return (
     <ConfigContext.Provider

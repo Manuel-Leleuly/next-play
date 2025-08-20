@@ -1,4 +1,4 @@
-import { useAddRemoveFavoritesLogic } from "@/hooks/useAddToFavoritesLogic";
+import { useAddRemoveFavoritesLogic } from "@/hooks/useAddOrRemoveFavoritesLogic";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { motion } from "motion/react";

@@ -84,3 +84,9 @@ export const UserDetailSchema = z.object({
 });
 
 export type UserDetailType = z.infer<typeof UserDetailSchema>;
+
+export const DeleteSessionSchema = z.object({
+  success: z.boolean(),
+});
+
+export type DeleteSessionType = z.infer<typeof DeleteSessionSchema>;

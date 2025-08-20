@@ -35,7 +35,7 @@ export type DynamicMetadataFunction<
   T extends Params | undefined = undefined,
   Q extends SearchParams | undefined = undefined
 > = (
-  props: T extends Params ? PageRouteProps<T, Q> : undefined,
+  props: PageRouteProps<T, Q>,
   parent: ResolvingMetadata
 ) => Promise<Metadata>;
 
@@ -43,15 +43,15 @@ export type FormStateFunction<
   T extends Record<string, unknown> = { errors: string[] | null }
 > = (state: T, formData: FormData) => T | Promise<T>;
 
-export type AddParameters<
-  TFunctions extends (...args: any) => any,
-  TParameters extends [...args: any],
-  TMode extends "append" | "insert" = "append"
-> = (
-  ...args: TMode extends "append"
-    ? [...Parameters<TFunctions>, ...TParameters]
-    : [...TParameters, ...Parameters<TFunctions>]
-) => ReturnType<TFunctions>;
+// export type AddParameters<
+//   TFunctions extends (...args: any) => any,
+//   TParameters extends [...args: any],
+//   TMode extends "append" | "insert" = "append"
+// > = (
+//   ...args: TMode extends "append"
+//     ? [...Parameters<TFunctions>, ...TParameters]
+//     : [...TParameters, ...Parameters<TFunctions>]
+// ) => ReturnType<TFunctions>;
 
 export type SelectOption<T = ReactNode> = {
   label: T;

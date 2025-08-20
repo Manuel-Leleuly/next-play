@@ -4,7 +4,7 @@ import { MovieType } from "@/api/movies/movieModels";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BACKDROP_SIZE } from "@/constants/ImageSize";
-import { useAddRemoveFavoritesLogic } from "@/hooks/useAddToFavoritesLogic";
+import { useAddRemoveFavoritesLogic } from "@/hooks/useAddOrRemoveFavoritesLogic";
 import { ImageLib } from "@/lib/imageLib";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, Calendar, Clock, Heart, Play, Star } from "lucide-react";

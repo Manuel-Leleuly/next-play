@@ -45,7 +45,7 @@ export const InfiniteFavoriteMovies = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {allMovies.map((movie, index) => (
+            {allMovies.map((movie) => (
               <FavoriteMovieCard movie={movie} key={movie.id} />
             ))}
           </motion.div>

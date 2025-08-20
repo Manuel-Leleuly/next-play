@@ -35,7 +35,7 @@ export const RightSide = ({ requestToken }: { requestToken: string }) => {
         {/* Sign Up Link */}
         <div className="text-center">
           <p className="text-sm text-muted-foreground">
-            Don't have an account?{" "}
+            Don&lsquo;t have an account?{" "}
             <Link
               href={globalVar.TMDB_SIGN_UP_URL}
               target="_blank"

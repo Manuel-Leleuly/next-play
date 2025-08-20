@@ -1,5 +1,6 @@
 "use client";
 
+import { CreateSessionFailedType } from "@/api/tmdb/tmdbModels";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,7 +23,10 @@ export const LoginForm = ({ requestToken }: { requestToken: string }) => {
       const { response } = error;
       if (!response) return "";
 
-      if (response.status === 401 && response.data.status_code === 30) {
+      if (
+        response.status === 401 &&
+        (response.data as CreateSessionFailedType).status_code === 30
+      ) {
         return "Invalid username and/or password";
       } else if (response.status.toString()[0] === "5") {
         return "Internal server error. Please try again!";

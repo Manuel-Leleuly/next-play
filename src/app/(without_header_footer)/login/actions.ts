@@ -4,7 +4,6 @@ import { TmdbApi } from "@/api/tmdb/tmdb";
 import { LoginRequestBodyType } from "@/api/tmdb/tmdbModels";
 import { NetworkLib } from "@/lib/NetworkLib";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export const submitLogin = async (reqBody: LoginRequestBodyType) => {
   const network = NetworkLib.withTMDBToken();
@@ -22,6 +21,5 @@ export const submitLogin = async (reqBody: LoginRequestBodyType) => {
       }),
       { httpOnly: true }
     );
-    redirect("/");
   }
 };

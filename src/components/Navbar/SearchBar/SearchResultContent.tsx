@@ -109,7 +109,7 @@ export const SearchResultContent = ({
                 </p>
                 <p className="text-wrap text-[12px] text-muted-foreground">
                   {genres
-                    .filter((genres) => movie.genre_ids.includes(genres.id))
+                    .filter((genres) => movie.genre_ids?.includes(genres.id))
                     .map((genre) => genre.name)
                     .join(", ")}
                 </p>

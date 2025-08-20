@@ -15,10 +15,12 @@ import {
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { SearchBar } from "./SearchBar/SearchBar";
+import { useLogoutLogic } from "./logic/useLogoutLogic";
 
 export const MenuMobile = ({ closeMenu }: { closeMenu: () => void }) => {
   const { hasUserDetail, userDetail } = useConfigContext();
   const { theme, setTheme } = useTheme();
+  const { logoutMutation } = useLogoutLogic();
 
   const toggleTheme = () => {
     if (theme === "light") setTheme("dark");
@@ -120,7 +122,11 @@ export const MenuMobile = ({ closeMenu }: { closeMenu: () => void }) => {
                           </span>
                         </button>
                         <div className="border-t border-border pt-2">
-                          <button className="w-full flex items-center space-x-3 p-3 hover:bg-accent rounded-md transition-colors text-destructive">
+                          <button
+                            onClick={() => logoutMutation.mutate()}
+                            disabled={logoutMutation.isPending}
+                            className="w-full flex items-center space-x-3 p-3 hover:bg-accent rounded-md transition-colors text-destructive disabled:bg-muted-foreground disabled:cursor-not-allowed"
+                          >
                             <LogOut className="h-5 w-5" />
                             <span className="text-lg">Log out</span>
                           </button>

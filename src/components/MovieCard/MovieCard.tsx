@@ -7,7 +7,6 @@ import { useConfigContext } from "@/providers/ConfigProvider";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Badge } from "../ui/badge";
 import { AddToFavorites } from "./AddToFavorites";
 
 export const MovieCard = ({
@@ -84,13 +83,15 @@ export const MovieCard = ({
               {genres
                 .filter((genre) => genreIds.includes(genre.id))
                 .map((genre) => (
-                  <Badge
+                  <motion.p
                     key={genre.id}
-                    variant="outline"
-                    className="border-white text-white"
+                    className="text-sm text-gray-300 mb-1"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileHover={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
                   >
                     {genre.name}
-                  </Badge>
+                  </motion.p>
                 ))}
             </div>
           </div>
