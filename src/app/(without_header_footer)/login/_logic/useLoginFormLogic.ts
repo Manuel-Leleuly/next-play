@@ -3,6 +3,7 @@ import { useLocalStorage } from "@/hooks/useLocaleStorage";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { submitLogin } from "../actions";
 
 export const useLoginFormLogic = (requestToken: string) => {
@@ -33,8 +34,10 @@ export const useLoginFormLogic = (requestToken: string) => {
         setIsLoading(true);
         setError(null);
         await submitLogin(value);
+        toast.success("Successfully logged in. Redirecting...");
       } catch (error) {
         setError(error as Error);
+        toast.error("Failed to log in. Please try again");
       } finally {
         setIsLoading(false);
       }

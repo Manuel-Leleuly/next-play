@@ -1,10 +1,17 @@
 "use client";
 
+import { DynamicMetadataFunction } from "@/models/models";
 import { EmptyFavoritesMessage } from "./_components/EmptyFavoritesMessage";
 import { Header } from "./_components/Header";
 import { InfiniteFavoriteMovies } from "./_components/InfiniteFavoriteMovies";
 import { Statistics } from "./_components/Statistics";
 import { useFavoriteMoviesLogic } from "./logic/useFavoriteMoviesLogic";
+
+export const generateMetadata: DynamicMetadataFunction = async () => {
+  return {
+    title: "MovieApp | Favorites",
+  };
+};
 
 export default function FavoritesPage() {
   const { allMovies, isLoading, error, hasNextPage, fetchNextPage } =

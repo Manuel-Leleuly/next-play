@@ -5,11 +5,23 @@ import {
 } from "@/api/movies/movieModels";
 import { MovieApi } from "@/api/movies/movies";
 import { NetworkLib } from "@/lib/NetworkLib";
-import { PageRouteProps } from "@/models/models";
+import { DynamicMetadataFunction, PageRouteProps } from "@/models/models";
 import { notFound } from "next/navigation";
 import { MovieDetailBackdrop } from "./_components/MovieDetailBackdrop";
 import { MovieDetailContent } from "./_components/MovieDetailContent";
 import { Recommendations } from "./_components/Recommendations";
+
+export const generateMetadata: DynamicMetadataFunction<{
+  movieId: string;
+}> = async ({ params }) => {
+  const { movieId } = await params;
+  const network = NetworkLib.withTMDBToken();
+  const movieDetail = await MovieApi.getMovieById(network, parseInt(movieId));
+
+  return {
+    title: `MovieApp | ${movieDetail.title}`,
+  };
+};
 
 type Props = PageRouteProps<{ movieId: string }>;
 

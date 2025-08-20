@@ -4,6 +4,7 @@ import { useConfigContext } from "@/providers/ConfigProvider";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const useAddRemoveFavoritesLogic = (isAlreadyFavorite?: boolean) => {
   const router = useRouter();
@@ -31,6 +32,20 @@ export const useAddRemoveFavoritesLogic = (isAlreadyFavorite?: boolean) => {
     onSuccess: () => {
       setIsFavorite((prevState) => !prevState);
       queryClient.invalidateQueries({ queryKey: ["infiniteFavorites"] });
+
+      let message = "Movie is successfully added to favorites";
+      if (isFavorite) {
+        message = "Movie is successfully removed from favorites";
+      }
+
+      toast.success(message);
+    },
+    onError: () => {
+      let message = "Failed to add movie to favorites";
+      if (isFavorite) {
+        message = "Failed to remove movie to favorites";
+      }
+      toast.error(message);
     },
   });
 
