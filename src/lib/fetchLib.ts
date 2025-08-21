@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { z } from "zod";
 
 export class FetchLib {
@@ -16,5 +16,16 @@ export class FetchLib {
     } catch (error) {
       throw error;
     }
+  };
+
+  static getAxiosErrorFromServerAction = (
+    error: AxiosError,
+    serverActionLabel: string
+  ) => {
+    return {
+      message: `there is a server action error from ${serverActionLabel}`,
+      status_code: error.status,
+      response_data: error.response?.data,
+    };
   };
 }

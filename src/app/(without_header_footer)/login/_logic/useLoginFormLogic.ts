@@ -17,7 +17,10 @@ export const useLoginFormLogic = (requestToken: string) => {
       password: string;
       request_token: string;
     }) => {
-      await submitLogin(value);
+      const errorData = await submitLogin(value);
+      if (errorData) {
+        throw new Error(JSON.stringify(errorData));
+      }
     },
     onSuccess: () => {
       toast.success("Successfully logged in. Redirecting...");

@@ -1,10 +1,8 @@
 "use client";
 
-import { CreateSessionFailedType } from "@/api/tmdb/tmdbModels";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import axios from "axios";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { motion } from "motion/react";
 import { useLoginFormLogic } from "../_logic/useLoginFormLogic";
@@ -19,16 +17,12 @@ export const LoginForm = ({ requestToken }: { requestToken: string }) => {
   } = useLoginFormLogic(requestToken);
 
   const getErrorMessage = () => {
-    if (axios.isAxiosError(error)) {
-      const { response } = error;
-      if (!response) return "";
+    if (error) {
+      const error_data = JSON.parse(error.message);
 
-      if (
-        response.status === 401 &&
-        (response.data as CreateSessionFailedType).status_code === 30
-      ) {
+      if (error_data.status_code === 401) {
         return "Invalid username and/or password";
-      } else if (response.status.toString()[0] === "5") {
+      } else if (error_data.status_code.toString()[0] === "5") {
         return "Internal server error. Please try again!";
       }
     }
